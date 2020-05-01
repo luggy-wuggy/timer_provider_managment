@@ -2,10 +2,11 @@
 
 import 'package:flutter/material.dart';
 
+
 class TimerSet with ChangeNotifier{  
   int rounds = 20;
-  int roundDuration = 5;
-  int breakDuration = 1;
+  double roundDuration = 3;
+  double breakDuration = 1;
   int roundEndDuration = 10;
   int breakEndDuration = 10;
   double readyDuration = .10;
@@ -16,14 +17,13 @@ class TimerSet with ChangeNotifier{
     print("$rounds  $roundDuration  $breakDuration   $roundEndDuration   $breakEndDuration   $readyDuration");
   }
   
-  void setRoundDuration(int x){
+  void setRoundDuration(double x){
     roundDuration = x;
     notifyListeners();
-
     print("$rounds  $roundDuration  $breakDuration   $roundEndDuration   $breakEndDuration   $readyDuration");
   }
 
-  void setBreakDuration(int x){
+  void setBreakDuration(double x){
     breakDuration = x;
     notifyListeners();
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:provider/provider.dart';
 import "../models/timer_set.dart";
+import "../widgets/countdown.dart";
 
 class OptionScreen extends StatefulWidget {
 
@@ -62,7 +62,7 @@ class _OptionScreenState extends State<OptionScreen> {
               RaisedButton(
                 onPressed: () {
                   widget.setTimer.setRoundDuration(
-                      int.parse(roundDurationController.text));
+                      double.parse(roundDurationController.text));
                 },
                 child: Text('set'),
               )
@@ -81,7 +81,7 @@ class _OptionScreenState extends State<OptionScreen> {
               RaisedButton(
                 onPressed: () {
                   widget.setTimer.setBreakDuration(
-                      int.parse(breakDurationController.text));
+                      double.parse(breakDurationController.text));
                 },
                 child: Text('set'),
               )
