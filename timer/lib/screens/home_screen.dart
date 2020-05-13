@@ -16,24 +16,80 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   AnimationController _controller;
+  CountDown countdownWidget;
+  int count;
+  int setRound;
+  int startRound = 1;
+
 
   @override
   void initState() {
+    setRound = widget.setTimer.rounds;
+    count = 0;
     super.initState();
     _controller = AnimationController(
-        vsync: this,
-        duration: Duration(
-          seconds: (widget.setTimer.roundDuration * 60).toInt(),
-        ));
+      vsync: this,
+      duration: Duration(
+        seconds: (widget.setTimer.roundDuration * 60).toInt(),
+      ),
+    );
+
+    _controller.addListener(() => setState(() {}));
+
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        if(count % 2 == 1){
+          widget.setTimer.rounds--;
+          startRound++;
+        }
+        print(count);
+        count++;
+        _controller.reset();
+      } else if (status == AnimationStatus.dismissed) {
+        if (count == (setRound*2)-1){
+          startRound = 1;
+          count = 0;
+          _controller.reset();
+          _controller.stop();      
+        }else{
+          _controller.forward();
+        }
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     double roundMinutes = ((widget.setTimer.roundDuration));
-    String roundSeconds = ((roundMinutes * 60).toInt()).remainder(60).toString().padLeft(2, '0');
+    String roundSeconds =
+        ((roundMinutes * 60).toInt()).remainder(60).toString().padLeft(2, '0');
 
     double breakMinutes = ((widget.setTimer.breakDuration));
-    String breakSeconds = ((breakMinutes * 60).toInt()).remainder(60).toString().padLeft(2, '0');
+    String breakSeconds =
+        ((breakMinutes * 60).toInt()).remainder(60).toString().padLeft(2, '0');
+
+    if (count % 2 == 0) {
+      _controller.duration =
+          Duration(seconds: (widget.setTimer.breakDuration * 60).toInt());
+      countdownWidget = CountDown(
+        animation: StepTween(
+                begin: ((widget.setTimer.roundDuration) * 3600).toInt(), end: 0)
+            .animate(_controller),
+        indicationColor: Colors.lightGreen[600],
+      );
+    } else {
+      
+      _controller.duration =
+          Duration(seconds: (widget.setTimer.roundDuration * 60).toInt());
+      countdownWidget = CountDown(
+        animation: StepTween(
+                begin: ((widget.setTimer.breakDuration) * 3600).toInt(), end: 0)
+            .animate(_controller),
+        indicationColor: Colors.amber[600],
+      );
+    }
+
+    //print("THIS IS HOME");
 
     return Container(
       width: double.infinity,
@@ -41,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen>
       child: Column(
         children: <Widget>[
           Text(
-            "${widget.setTimer.rounds} Rounds",
+            "${setRound} Rounds",
             style: TextStyle(fontSize: 35),
           ),
           Text(
@@ -52,12 +108,9 @@ class _HomeScreenState extends State<HomeScreen>
             "Breaks ${breakMinutes.toInt()}:$breakSeconds / Notice ${widget.setTimer.breakEndDuration}s",
             style: TextStyle(fontSize: 20),
           ),
-          CountDown(
-            animation: StepTween(
-                    begin: ((widget.setTimer.roundDuration) * 3600).toInt(),
-                    end: 0)
-                .animate(_controller),
-          ),
+          SizedBox(height: 45,),
+          Text('Round ${startRound}', style: TextStyle(fontSize: 40),),
+          countdownWidget,
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
@@ -65,9 +118,16 @@ class _HomeScreenState extends State<HomeScreen>
                 child: Text('start'),
                 onPressed: () {
                   //_controller.reset();
-                  _controller.duration = Duration(
-                    seconds: (widget.setTimer.roundDuration * 60).toInt(),
-                  );
+                  if (count % 2 == 0) {
+                    _controller.duration = Duration(
+                      seconds: (widget.setTimer.roundDuration * 60).toInt(),
+                    );
+                  } else {
+                    _controller.duration = Duration(
+                      seconds: (widget.setTimer.breakDuration * 60).toInt(),
+                    );
+                  }
+
                   _controller.forward();
                 },
               ),
@@ -82,9 +142,12 @@ class _HomeScreenState extends State<HomeScreen>
           RaisedButton(
             child: Text('reset'),
             onPressed: () {
+              startRound = 1;
+              count = 0;
               _controller.reset();
+              _controller.stop();
             },
-          )
+          ),
         ],
       ),
     );

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 class CountDown extends AnimatedWidget {
-  CountDown({Key key, this.animation}) : super(key: key, listenable: animation);
+  CountDown({Key key, this.animation, this.indicationColor} ) : super(key: key, listenable: animation);
   Animation<int> animation;
+  Color indicationColor;
+  
 
   @override
   build(BuildContext context) {
@@ -12,13 +14,13 @@ class CountDown extends AnimatedWidget {
     String seconds = '${(clockTimer.inMinutes.remainder(60)).toString().padLeft(2, '0')}';
 
     String timerText =
-        '${minutes}:${seconds}';
+        '$minutes:$seconds';
 
     return Text(
       "$timerText",
       style: TextStyle(
         fontSize: 110,
-        color: Theme.of(context).primaryColor,
+        color: indicationColor,
       ),
     );
   }
