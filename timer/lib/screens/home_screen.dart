@@ -55,7 +55,8 @@ class _HomeScreenState extends State<HomeScreen>
           _controller.forward();
         }
       }
-    });
+    }
+    );
   }
 
   @override
@@ -78,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen>
         indicationColor: Colors.lightGreen[600],
       );
     } else {
-      
+
       _controller.duration =
           Duration(seconds: (widget.setTimer.roundDuration * 60).toInt());
       countdownWidget = CountDown(
