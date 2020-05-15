@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   void initState() {
-    setRound = widget.setTimer.rounds;
+    //setRound = widget.setTimer.rounds;
     count = 0;
     super.initState();
     _controller = AnimationController(
@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen>
     _controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         if(count % 2 == 1){
-          widget.setTimer.rounds--;
+          //widget.setTimer.rounds--;
           startRound++;
         }
         print(count);
@@ -97,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen>
       child: Column(
         children: <Widget>[
           Text(
-            "${setRound} Rounds",
+            "${widget.setTimer.rounds} Rounds",
             style: TextStyle(fontSize: 35),
           ),
           Text(
