@@ -4,6 +4,7 @@ import "./models/timer_set.dart";
 
 import './screens/option_screen.dart';
 import './screens/home_screen.dart';
+import './screens/presets_screen.dart';
 import './models/destination_view.dart';
 
 void main() {
@@ -34,7 +35,7 @@ class _HomePageState extends State<HomePage>
   final timerSet = Provider.of<TimerSet>(context);
 
   List<Destination> allDestinations = <Destination>[
-    Destination('Presets', Icons.bookmark, Colors.cyan, Container()),
+    Destination('Presets', Icons.bookmark, Colors.cyan, PresetScreen()),
     Destination('Home', Icons.home, Colors.teal, HomeScreen(timerSet)),
     Destination('Setting', Icons.settings, Colors.orange, OptionScreen(timerSet)),
   ];

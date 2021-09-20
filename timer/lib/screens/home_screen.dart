@@ -21,7 +21,6 @@ class _HomeScreenState extends State<HomeScreen>
   int setRound;
   int startRound = 1;
 
-
   @override
   void initState() {
     //setRound = widget.setTimer.rounds;
@@ -38,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen>
 
     _controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        if(count % 2 == 1){
+        if (count % 2 == 1) {
           //widget.setTimer.rounds--;
           startRound++;
         }
@@ -46,17 +45,16 @@ class _HomeScreenState extends State<HomeScreen>
         count++;
         _controller.reset();
       } else if (status == AnimationStatus.dismissed) {
-        if (count == (setRound*2)-1){
+        if (count == (setRound * 2) - 1) {
           startRound = 1;
           count = 0;
           _controller.reset();
-          _controller.stop();      
-        }else{
+          _controller.stop();
+        } else {
           _controller.forward();
         }
       }
-    }
-    );
+    });
   }
 
   @override
@@ -79,7 +77,6 @@ class _HomeScreenState extends State<HomeScreen>
         indicationColor: Colors.lightGreen[600],
       );
     } else {
-
       _controller.duration =
           Duration(seconds: (widget.setTimer.roundDuration * 60).toInt());
       countdownWidget = CountDown(
@@ -109,13 +106,18 @@ class _HomeScreenState extends State<HomeScreen>
             "Breaks ${breakMinutes.toInt()}:$breakSeconds / Notice ${widget.setTimer.breakEndDuration}s",
             style: TextStyle(fontSize: 20),
           ),
-          SizedBox(height: 45,),
-          Text('Round ${startRound}', style: TextStyle(fontSize: 40),),
+          SizedBox(
+            height: 45,
+          ),
+          Text(
+            'Round $startRound',
+            style: TextStyle(fontSize: 40),
+          ),
           countdownWidget,
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              RaisedButton(
+              ElevatedButton(
                 child: Text('start'),
                 onPressed: () {
                   //_controller.reset();
@@ -132,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen>
                   _controller.forward();
                 },
               ),
-              RaisedButton(
+              ElevatedButton(
                 child: Text('stop'),
                 onPressed: () {
                   _controller.stop();
@@ -140,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen>
               ),
             ],
           ),
-          RaisedButton(
+          ElevatedButton(
             child: Text('reset'),
             onPressed: () {
               startRound = 1;
